@@ -1,0 +1,170 @@
+@import '@fontsource-variable/archivo/wdth.css';
+@import 'tailwindcss';
+
+/*
+ * Galaxy Designers design tokens.
+ * Colours come from the logo pack: violet (G – the creative half),
+ * blue (D – the engineering half) and the navy used behind the mark.
+ * "-strong" variants are darker versions used for text and buttons so they
+ * meet WCAG AA contrast on light backgrounds.
+ */
+@theme {
+  --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --color-ink: #0a0f2c;
+  --color-ink-2: #10163a;
+  --color-ink-3: #1b2250;
+  --color-paper: #f5f6fb;
+  --color-white: #ffffff;
+  --color-line: #dde0ec;
+  --color-slate: #262a36;
+  --color-muted: #5b6075;
+  --color-mist: #a3a8c8;
+
+  --color-violet: #7b5cff;
+  --color-violet-strong: #6a48f5;
+  --color-lavender: #b8b4ff;
+  --color-blue: #2f6bff;
+  --color-blue-strong: #2459e0;
+  --color-sky: #6f8fff;
+
+  --color-success: #1f8a5b;
+  --color-danger: #c4314b;
+  --color-danger-on-dark: #ff8fa3;
+
+  --breakpoint-xs: 26rem;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 6rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+  body {
+    @apply bg-paper text-slate antialiased;
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    font-stretch: 100%;
+  }
+  ::selection { background: var(--color-lavender); color: var(--color-ink); }
+
+  :focus-visible {
+    outline: 2px solid var(--color-blue);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .on-dark :focus-visible { outline-color: var(--color-lavender); }
+
+  img, svg, video { display: block; max-width: 100%; }
+  img { height: auto; }
+}
+
+/* ----------------------------------------------------------------------------
+ * Typography. Headlines use Archivo's wide cut to echo the GALAXY wordmark;
+ * body copy uses the normal width.
+ * ------------------------------------------------------------------------- */
+@layer components {
+  .type-display {
+    font-stretch: 118%;
+    font-weight: 640;
+    font-size: clamp(2.5rem, 1.2rem + 5.6vw, 6.25rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .type-h1 {
+    font-stretch: 116%;
+    font-weight: 620;
+    font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .type-h2 {
+    font-stretch: 114%;
+    font-weight: 600;
+    font-size: clamp(1.875rem, 1.3rem + 2.2vw, 3.25rem);
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .type-h3 {
+    font-stretch: 110%;
+    font-weight: 600;
+    font-size: clamp(1.3rem, 1.1rem + 0.7vw, 1.75rem);
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+  }
+  .type-h4 {
+    font-stretch: 106%;
+    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .type-lead {
+    font-size: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+  .type-small { font-size: 0.9375rem; line-height: 1.55; }
+  .type-meta { font-size: 0.875rem; line-height: 1.45; font-weight: 500; }
+
+  .measure { max-width: 66ch; }
+  .measure-narrow { max-width: 52ch; }
+
+  .container-site {
+    width: 100%;
+    max-width: 84rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 0.6rem + 2.8vw, 3rem);
+  }
+
+  .section { padding-block: clamp(4.5rem, 3rem + 6vw, 8.5rem); }
+  .section-tight { padding-block: clamp(3rem, 2rem + 4vw, 5.5rem); }
+
+  /* Long-form text inside case studies and service pages */
+  .prose-site p + p { margin-top: 1em; }
+  .prose-site ul { margin-top: 0.75em; display: grid; gap: 0.5em; }
+  .prose-site li { padding-left: 1.25em; position: relative; }
+  .prose-site li::before {
+    content: '';
+    position: absolute; left: 0; top: 0.68em;
+    width: 0.45em; height: 0.45em; border-radius: 999px;
+    background: var(--color-violet);
+  }
+}
+
+/* A visually hidden helper for screen-reader-only text */
+@utility sr-only-focusable {
+  &:not(:focus):not(:focus-within) {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+}
+
+/* Hero orbit: one orchestrated draw-in on load, nothing else moves on its own. */
+@keyframes orbit-draw { from { stroke-dashoffset: var(--len); } to { stroke-dashoffset: 0; } }
+@keyframes node-in { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.orbit-arc { stroke-dasharray: var(--len); animation: orbit-draw 1.4s var(--ease-out-quart) both; }
+.orbit-node { transform-box: fill-box; transform-origin: center; animation: node-in 0.5s var(--ease-out-quart) both; }
+.orbit-label { animation: fade-in 0.6s var(--ease-out-quart) both; }
+.hero-rise { animation: rise-in 0.8s var(--ease-out-quart) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

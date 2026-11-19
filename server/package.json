@@ -1,0 +1,35 @@
+{
+  "name": "@galaxy/server",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=.env src/index.ts",
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node22 --packages=external --alias:@galaxy/shared=../shared/src/index.ts --outfile=dist/server.mjs && esbuild scripts/migrate.ts --bundle --platform=node --format=esm --target=node22 --packages=external --outfile=dist/migrate.mjs",
+    "start": "node --env-file-if-exists=.env dist/server.mjs",
+    "db:migrate": "tsx --env-file-if-exists=.env scripts/migrate.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@galaxy/shared": "*",
+    "compression": "^1.8.2",
+    "cors": "^2.8.6",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.5",
+    "helmet": "^8.3.0",
+    "nodemailer": "^10.6.0",
+    "pg": "^8.23.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.8.1",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "@types/nodemailer": "^8.0.2",
+    "@types/pg": "^8.23.1",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "private": true,
+  "type": "module"
+}

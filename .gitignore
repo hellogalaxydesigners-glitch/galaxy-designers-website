@@ -1,0 +1,13 @@
+node_modules/
+dist/
+dist-ssr/
+*.log
+.DS_Store
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Local development enquiries (file storage)
+server/data/
